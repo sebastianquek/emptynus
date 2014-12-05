@@ -9,70 +9,72 @@
   </head>
   <body>
     <div class="row">
-      <a href="/search"><h1>EmptyNUS</h1></a>
-      <form action="" method="get">
+      <div class="columns">
+        <a href="/search"><h1>EmptyNUS</h1></a>
+        <form action="" method="get">
+          <div class="row">
+            <div class="small-4 medium-3 columns">
+              <label>Day
+                <select name="day">
+                  <option></option>
+                  {% for day in days %}{% if day == request.args.get("day", "") %}<option selected="selected" value="{{day}}">{{day}}</option>{% else %}<option value="{{day}}">{{day}}</option>{% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+            </div>
+            <div class="small-3 medium-2 columns">
+              <label>Time
+                <select name="time" value="{{request.args.get("time", "")}}">
+                  <option></option>
+                  {% for time in times %}{% if time == request.args.get("time", "") %}<option selected="selected" value="{{time}}">{{time}}</option>{% else %}<option value="{{time}}">{{time}}</option>{% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+            </div>
+            <div class="small-5 medium-3 columns end">
+              <label>Venue
+                <div class="row collapse postfix">
+                  <div class="small-7 medium-7 columns">
+                      <input type="text" placeholder="Venue" name="venue" value="{{request.args.get("venue", "")}}">
+                  </div>
+                  <div class="small-5 medium-5 columns">
+                    <input class="button postfix" type="submit" value="Search">
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div> 
+        </form>
+        {% if error %}
         <div class="row">
           <div class="medium-3 columns">
-            <label>Day
-              <select name="day">
-                <option></option>
-                {% for day in days %}{% if day == request.args.get("day", "") %}<option selected="selected" value="{{day}}">{{day}}</option>{% else %}<option value="{{day}}">{{day}}</option>{% endif %}
-                {% endfor %}
-              </select>
-            </label>
+            <small class="error"><strong>{{ error }}</strong></small>
           </div>
-          <div class="medium-2 columns">
-            <label>Time
-              <select name="time" value="{{request.args.get("time", "")}}">
-                <option></option>
-                {% for time in times %}{% if time == request.args.get("time", "") %}<option selected="selected" value="{{time}}">{{time}}</option>{% else %}<option value="{{time}}">{{time}}</option>{% endif %}
-                {% endfor %}
-              </select>
-            </label>
-          </div>
-          <div class="medium-3 columns end">
-            <label>Venue
-              <div class="row collapse postfix">
-                <div class="small-7 columns">
-                    <input type="text" placeholder="Venue" name="venue" value="{{request.args.get("venue", "")}}">
-                </div>
-                <div class="small-5 columns">
-                  <input class="button postfix" type="submit" value="Search">
-                </div>
-              </div>
-            </label>
-          </div>
-        </div> 
-      </form>
-      {% if error %}<br>
-      <div class="row">
-        <div class="medium-3 columns">
-          <small class="error"><strong>{{ error }}</strong></small>
         </div>
+        {% elif results %}
+        <div class="row">
+          <div class="small-12 columns">
+            <p>{{results.__len__()}} results</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Module Name</th>
+                  <th>Lesson Type</th>
+                  <th>Venue</th>
+                  <th>Day</th>
+                  <th>Start</th>
+                  <th>End</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for result in results %}<tr><td>{{result.code}}</td><td>{{result.name}}</td><td>{{result.lesson_type + " " + result.class_num}}</td><td>{{result.venue}}</td><td>{{result.day}}</td><td>{{result.start_time}}</td><td>{{result.end_time}}</td></tr>{% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>  
+        {% endif %}
       </div>
-      {% elif results %}<br>
-      <div class="row">
-        <div class="small-12 columns">
-          <p>{{results.__len__()}} results</p>
-          <table>
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Module Name</th>
-                <th>Lesson Type</th>
-                <th>Venue</th>
-                <th>Day</th>
-                <th>Start</th>
-                <th>End</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for result in results %}<tr><td>{{result.code}}</td><td>{{result.name}}</td><td>{{result.lesson_type + " " + result.class_num}}</td><td>{{result.venue}}</td><td>{{result.day}}</td><td>{{result.start_time}}</td><td>{{result.end_time}}</td></tr>{% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>  
-      {% endif %}
     </div>
     {% for message in get_flashed_messages() %}
       {{ message }}
