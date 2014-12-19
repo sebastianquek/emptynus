@@ -5,3 +5,7 @@
 h1 {
 	font-weight: bold;
 }
+
+html,
+body {
+  font-size: 90%; }

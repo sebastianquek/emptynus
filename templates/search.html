@@ -17,12 +17,12 @@
               <label>Day
                 <select name="day">
                   <option></option>
-                  {% for day in days %}{% if day == request.args.get("day", "") %}<option selected="selected" value="{{day}}">{{day}}</option>{% else %}<option value="{{day}}">{{day}}</option>{% endif %}
+                  {% for day in days %}{% if day.lower() == request.args.get("day", "").lower() %}<option selected="selected" value="{{day}}">{{day}}</option>{% else %}<option value="{{day}}">{{day}}</option>{% endif %}
                   {% endfor %}
                 </select>
               </label>
             </div>
-            <div class="small-3 medium-2 large-1 columns">
+            <div class="small-3 medium-2 columns">
               <label>Time
                 <select name="time" value="{{request.args.get("time", "")}}">
                   <option></option>
@@ -31,7 +31,7 @@
                 </select>
               </label>
             </div>
-            <div class="small-5 medium-3 large-3 columns end">
+            <div class="small-5 medium-3 columns end">
               <label>Venue
                 <div class="row collapse postfix">
                   <div class="small-7 medium-7 columns">
@@ -60,13 +60,12 @@
                 <tr>
                   <th>Module</th>
                   <th>Venue</th>
-                  <th>Start</th>
-                  <th>End</th>
-                  <th>Lesson Type</th>
+                  <th>Time</th>
+                  <th>Type</th>
                 </tr>
               </thead>
               <tbody>
-                {% for result in results %}<tr><td>{{result.code + " " + result.name}}</td><td>{{result.venue}}</td><td>{{result.start_time}}</td><td>{{result.end_time}}</td><td>{{result.lesson_type + " " + result.class_num}}</td></tr>{% endfor %}
+                {% for result in results %}<tr><td>{{result.code + " " + result.name}}</td><td>{{result.venue}}</td><td>{{result.start_time + "-" + result.end_time}}</td><td>{{result.lesson_type + " " + result.class_num}}</td></tr>{% endfor %}
               </tbody>
             </table>
           </div>

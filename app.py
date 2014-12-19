@@ -13,10 +13,18 @@ def get_valid_times():
 	for i in range(6, 24):
 		times.append('{i:02d}00'.format(i=i))
 		times.append('{i:02d}30'.format(i=i))
+	print("get_valid_times was called")
 	return times
 
 valid_times = get_valid_times()
 valid_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+valid_days_lowercase = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+
+def is_valid(day, time):
+	if (day == "" or day.lower() in valid_days_lowercase) and \
+		(time == "" or time in valid_times):
+		return True
+	return False
 
 class Slot():
 	def __init__(self, code, name, slot):
@@ -38,21 +46,24 @@ def search():
 	error = None
 	results = []
 	if request.query_string:
-		day = request.args.get("day")
-		time = request.args.get("time")
-		venue = request.args.get("venue").lower()
-		for mod in timetable:
-			code = mod.get("ModuleCode")
-			name = mod.get("ModuleTitle")
-			for slot in mod.get("Timetable", ()):
-				if ((day == None or day == "" or day in slot.get("DayText")) 
-					and (time == None or time == "" or slot.get("StartTime") <= time <= slot.get("EndTime"))
-					and (venue == None or venue == "" or venue in slot.get("Venue").lower())):
-					#print(slot)
-					# results.append("{} {} {}, {}, {} {} to {}".format(code, name, slot.get("LessonType"), slot.get("Venue"), slot.get("DayText"), slot.get("StartTime"), slot.get("EndTime")))
-					results.append(Slot(code, name, slot))
-		if results == []:
-			error = "No results"
+		day = request.args.get("day", "")
+		time = request.args.get("time", "")
+		venue = request.args.get("venue", "")
+		if is_valid(day, time):
+			for mod in timetable:
+				code = mod.get("ModuleCode")
+				name = mod.get("ModuleTitle")
+				for slot in mod.get("Timetable", ()):
+					if ((day == "" or day.lower() in slot.get("DayText").lower()) 
+						and (time == "" or slot.get("StartTime") <= time <= slot.get("EndTime"))
+						and (venue == "" or venue.lower() in slot.get("Venue").lower())):
+						#print(slot)
+						# results.append("{} {} {}, {}, {} {} to {}".format(code, name, slot.get("LessonType"), slot.get("Venue"), slot.get("DayText"), slot.get("StartTime"), slot.get("EndTime")))
+						results.append(Slot(code, name, slot))
+			if results == []:
+				error = "No results"
+		else:
+			return redirect(url_for("search"))
 	# data=dict(request.args.items())
 	return render_template("search.html", error=error, days=valid_days, times=valid_times, results=results)
 
