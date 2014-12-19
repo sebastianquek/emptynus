@@ -35,7 +35,7 @@
               <label>Venue
                 <div class="row collapse postfix">
                   <div class="small-7 medium-7 columns">
-                      <input type="text" placeholder="Venue" name="venue" value="{{request.args.get("venue", "")}}">
+                      <input type="text" placeholder="Eg. COM1" name="venue" value="{{request.args.get("venue", "")}}">
                   </div>
                   <div class="small-5 medium-5 columns">
                     <input class="button postfix" type="submit" value="Search">
@@ -53,22 +53,20 @@
         </div>
         {% elif results %}
         <div class="row">
-          <div class="small-12 columns">
+          <div class="columns">
             <p>{{results.__len__()}} results</p>
             <table>
               <thead>
                 <tr>
-                  <th>Code</th>
-                  <th>Module Name</th>
-                  <th>Lesson Type</th>
+                  <th>Module</th>
                   <th>Venue</th>
-                  <th>Day</th>
                   <th>Start</th>
                   <th>End</th>
+                  <th>Lesson Type</th>
                 </tr>
               </thead>
               <tbody>
-                {% for result in results %}<tr><td>{{result.code}}</td><td>{{result.name}}</td><td>{{result.lesson_type + " " + result.class_num}}</td><td>{{result.venue}}</td><td>{{result.day}}</td><td>{{result.start_time}}</td><td>{{result.end_time}}</td></tr>{% endfor %}
+                {% for result in results %}<tr><td>{{result.code + " " + result.name}}</td><td>{{result.venue}}</td><td>{{result.start_time}}</td><td>{{result.end_time}}</td><td>{{result.lesson_type + " " + result.class_num}}</td></tr>{% endfor %}
               </tbody>
             </table>
           </div>

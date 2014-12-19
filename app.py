@@ -25,7 +25,6 @@ class Slot():
 		self.lesson_type = slot.get("LessonType")
 		self.class_num = slot.get("ClassNo")
 		self.venue = slot.get("Venue")
-		self.day = slot.get("DayText")
 		self.start_time = slot.get("StartTime")
 		self.end_time = slot.get("EndTime")
 
