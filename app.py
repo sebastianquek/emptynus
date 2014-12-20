@@ -41,8 +41,9 @@ def home(path):
 def search():
 	with open("static/timetable.json", "r") as in_file:
 	    text = in_file.read()
+	    print("opened timetable.json")
 	timetable = json.loads(text)
-	
+
 	error = None
 	results = []
 	if request.query_string:
