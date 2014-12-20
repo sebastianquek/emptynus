@@ -4,10 +4,6 @@ import json
 
 app = Flask(__name__)
 
-with open("static/timetable.json", "r") as in_file:
-    text = in_file.read()
-timetable = json.loads(text)
-
 def get_valid_times():
 	times = []
 	for i in range(6, 24):
@@ -43,6 +39,10 @@ def home(path):
 
 @app.route("/search")
 def search():
+	with open("static/timetable.json", "r") as in_file:
+	    text = in_file.read()
+	timetable = json.loads(text)
+	
 	error = None
 	results = []
 	if request.query_string:
