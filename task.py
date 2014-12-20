@@ -16,9 +16,9 @@ HEROKU_TOKEN = "8f8bc684-8a7f-4ce0-ad92-1875a0c0c233"  #used for instance restar
 APP_NAME = "emptynus"
 def restart_heroku():
 	cloud = heroku3.from_key(HEROKU_TOKEN)
-    app = cloud.apps()[APP_NAME]
-    for dyno in app.dynos():
-    	dyno.kill()
+	app = cloud.apps()[APP_NAME]
+	for dyno in app.dynos():
+		dyno.kill()
 
 restart_heroku()
 print("Restarted successfully.")
