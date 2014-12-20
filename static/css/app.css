@@ -8,4 +8,9 @@ h1 {
 
 html,
 body {
-  font-size: 90%; }
+	font-size: 90%;
+}
+
+form {
+	margin: 0;
+}
