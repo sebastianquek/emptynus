@@ -17,9 +17,8 @@ APP_NAME = "emptynus"
 def restart_heroku(auto=False):
     '''restart heroku instance to re-allocate IP'''
     cloud = heroku3.from_key(HEROKU_TOKEN)
-    app = cloud.apps[APP_NAME]
-    for p in app.processes:
-        p.restart()
+    app = cloud.apps()[APP_NAME]
+    app.restart()
 
 restart_heroku()
 print("Restarted successfully.")
