@@ -61,11 +61,12 @@
                   <th>Module</th>
                   <th>Venue</th>
                   <th>Time</th>
+                  <th>Day</th>
                   <th>Type</th>
                 </tr>
               </thead>
               <tbody>
-                {% for result in results %}<tr><td>{{result.code + " " + result.name}}</td><td>{{result.venue}}</td><td>{{result.start_time + "-" + result.end_time}}</td><td>{{result.lesson_type + " " + result.class_num}}</td></tr>{% endfor %}
+                {% for result in results %}<tr><td>{{result.code + " " + result.name}}</td><td>{{result.venue}}</td><td>{{result.start_time + "-" + result.end_time}}</td><td>{{result.day + ' (' + result.week + ')'}}</td><td>{{result.lesson_type + " " + result.class_num}}</td></tr>{% endfor %}
               </tbody>
             </table>
           </div>

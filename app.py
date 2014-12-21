@@ -23,6 +23,8 @@ class Slot():
 		self.venue = slot.get("Venue")
 		self.start_time = slot.get("StartTime")
 		self.end_time = slot.get("EndTime")
+		self.day = slot.get("DayText")
+		self.week = slot.get("WeekText")
 
 def get_valid_times():
 	times = []
