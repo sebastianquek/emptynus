@@ -5,8 +5,8 @@ import os.path, time
 
 app = Flask(__name__)
 
-ACAD_YEAR = "2015-2016"
-SEM = "2"
+ACAD_YEAR = "2016-2017"
+SEM = "1"
 URL = "http://api.nusmods.com/{}/{}/timetable.json".format(ACAD_YEAR, SEM)
 
 data = requests.get(URL)
